@@ -6,104 +6,40 @@
   <title>משחק לוח הכפל</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');
-
     * { font-family: 'Heebo', sans-serif; }
-
-    @keyframes pop {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%       { transform: translateX(-12px); }
-      40%       { transform: translateX(12px); }
-      60%       { transform: translateX(-8px); }
-      80%       { transform: translateX(8px); }
-    }
-    @keyframes bounce-in {
-      0%   { transform: scale(0.3); opacity: 0; }
-      60%  { transform: scale(1.1); opacity: 1; }
-      80%  { transform: scale(0.95); }
-      100% { transform: scale(1); }
-    }
-    @keyframes star-spin {
-      0%   { transform: rotate(0deg) scale(0); opacity: 0; }
-      50%  { transform: rotate(180deg) scale(1.3); opacity: 1; }
-      100% { transform: rotate(360deg) scale(1); opacity: 1; }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-10px); }
-    }
-    @keyframes confetti-fall {
-      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-    }
-
+    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-12px); } 40% { transform: translateX(12px); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } }
+    @keyframes bounce-in { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } 80% { transform: scale(0.95); } 100% { transform: scale(1); } }
+    @keyframes star-spin { 0% { transform: rotate(0deg) scale(0); opacity: 0; } 50% { transform: rotate(180deg) scale(1.3); opacity: 1; } 100% { transform: rotate(360deg) scale(1); opacity: 1; } }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    @keyframes confetti-fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
     .anim-pop    { animation: pop 0.4s ease; }
     .anim-shake  { animation: shake 0.5s ease; }
     .anim-bounce { animation: bounce-in 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
     .anim-star   { animation: star-spin 0.7s ease forwards; }
     .anim-float  { animation: float 3s ease-in-out infinite; }
-
-    .btn-submit {
-      background: linear-gradient(135deg, #93c5fd, #3b82f6, #1d4ed8);
-      box-shadow: 0 8px 0 #1e40af, 0 10px 20px rgba(59,130,246,0.4);
-      transition: all 0.1s ease;
-    }
+    .btn-submit { background: linear-gradient(135deg, #93c5fd, #3b82f6, #1d4ed8); box-shadow: 0 8px 0 #1e40af, 0 10px 20px rgba(59,130,246,0.4); transition: all 0.1s ease; }
     .btn-submit:hover  { transform: translateY(-3px); box-shadow: 0 11px 0 #1e40af, 0 14px 28px rgba(59,130,246,0.5); }
     .btn-submit:active { transform: translateY(5px);  box-shadow: 0 3px 0 #1e40af; }
-
-    .btn-next {
-      background: linear-gradient(135deg, #fde68a, #fbbf24, #d97706);
-      box-shadow: 0 8px 0 #b45309, 0 10px 20px rgba(217,119,6,0.4);
-      transition: all 0.1s ease;
-    }
+    .btn-next { background: linear-gradient(135deg, #fde68a, #fbbf24, #d97706); box-shadow: 0 8px 0 #b45309, 0 10px 20px rgba(217,119,6,0.4); transition: all 0.1s ease; }
     .btn-next:hover  { transform: translateY(-3px); box-shadow: 0 11px 0 #b45309, 0 14px 28px rgba(217,119,6,0.5); }
     .btn-next:active { transform: translateY(5px);  box-shadow: 0 3px 0 #b45309; }
-
-    .number-card {
-      background: linear-gradient(135deg, #fff, #f0f4ff);
-      box-shadow: 0 12px 40px rgba(99,102,241,0.2), 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .score-badge {
-      background: linear-gradient(135deg, #818cf8, #6366f1, #4f46e5);
-      box-shadow: 0 4px 15px rgba(99,102,241,0.5);
-    }
-
-    .answer-input {
-      border: 4px solid #818cf8;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      text-align: center;
-    }
-    .answer-input:focus {
-      border-color: #4f46e5;
-      box-shadow: 0 0 0 4px rgba(99,102,241,0.25);
-    }
-
-    .confetti-piece {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      animation: confetti-fall linear forwards;
-      pointer-events: none;
-      z-index: 50;
-    }
+    .number-card { background: linear-gradient(135deg, #fff, #f0f4ff); box-shadow: 0 12px 40px rgba(99,102,241,0.2), 0 4px 12px rgba(0,0,0,0.1); }
+    .score-badge { background: linear-gradient(135deg, #818cf8, #6366f1, #4f46e5); box-shadow: 0 4px 15px rgba(99,102,241,0.5); }
+    .answer-input { border: 4px solid #818cf8; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; text-align: center; }
+    .answer-input:focus { border-color: #4f46e5; box-shadow: 0 0 0 4px rgba(99,102,241,0.25); }
+    .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; animation: confetti-fall linear forwards; pointer-events: none; z-index: 50; }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <script type="text/babel">
+  <script>
     const { useState, useEffect, useCallback, useRef } = React;
+    const e = React.createElement;
 
     const CONFETTI_COLORS = ['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];
 
@@ -125,45 +61,35 @@
         return () => clearTimeout(t);
       }, [active]);
 
-      return (
-        <>
-          {pieces.map(p => (
-            <div
-              key={p.id}
-              className="confetti-piece"
-              style={{
-                left: `${p.left}%`,
-                top: '-20px',
-                backgroundColor: p.color,
-                width: p.size,
-                height: p.size,
-                animationDuration: `${p.duration}s`,
-                animationDelay: `${p.delay}s`,
-              }}
-            />
-          ))}
-        </>
+      return e(React.Fragment, null,
+        pieces.map(p => e("div", {
+          key: p.id,
+          className: "confetti-piece",
+          style: {
+            left: `${p.left}%`,
+            top: '-20px',
+            backgroundColor: p.color,
+            width: p.size,
+            height: p.size,
+            animationDuration: `${p.duration}s`,
+            animationDelay: `${p.delay}s`,
+          }
+        }))
       );
     }
 
     function StarBurst() {
-      return (
-        <div className="flex justify-center gap-3 my-2">
-          {['⭐','🌟','⭐'].map((s, i) => (
-            <span
-              key={i}
-              className="text-4xl anim-star"
-              style={{ animationDelay: `${i * 0.15}s`, display: 'inline-block' }}
-            >
-              {s}
-            </span>
-          ))}
-        </div>
+      return e("div", { className: "flex justify-center gap-3 my-2" },
+        ['⭐','🌟','⭐'].map((s, i) => e("span", {
+          key: i,
+          className: "text-4xl anim-star",
+          style: { animationDelay: `${i * 0.15}s`, display: 'inline-block' }
+        }, s))
       );
     }
 
     function randomInt() {
-      return Math.floor(Math.random() * 11); // 0–10
+      return Math.floor(Math.random() * 11);
     }
 
     function MultiplicationGame() {
@@ -179,7 +105,6 @@
 
       const correct = a * b;
 
-      // Auto-focus input on new question
       useEffect(() => {
         if (phase === 'question' && inputRef.current) {
           inputRef.current.focus();
@@ -213,128 +138,98 @@
         if (e.key === 'Enter') handleSubmit();
       }, [handleSubmit]);
 
-      return (
-        <div
-          className="min-h-screen flex flex-col items-center justify-center p-4 transition-all duration-500"
-          style={{
-            background: phase === 'correct'
-              ? 'linear-gradient(135deg, #d1fae5, #a7f3d0, #6ee7b7)'
-              : phase === 'wrong'
-              ? 'linear-gradient(135deg, #fff3e0, #ffe0b2, #ffcc80)'
-              : 'linear-gradient(135deg, #e0e7ff, #ddd6fe, #fbcfe8)',
-          }}
-        >
-          <Confetti active={phase === 'correct'} key={confettiKey} />
+      return e("div", {
+        className: "min-h-screen flex flex-col items-center justify-center p-4 transition-all duration-500",
+        style: {
+          background: phase === 'correct'
+            ? 'linear-gradient(135deg, #d1fae5, #a7f3d0, #6ee7b7)'
+            : phase === 'wrong'
+            ? 'linear-gradient(135deg, #fff3e0, #ffe0b2, #ffcc80)'
+            : 'linear-gradient(135deg, #e0e7ff, #ddd6fe, #fbcfe8)',
+        }
+      },
+        e(Confetti, { active: phase === 'correct', key: confettiKey }),
+        
+        e("div", { className: "w-full max-w-md mb-6 flex items-center justify-between" },
+          e("div", { className: "score-badge text-white px-5 py-2 rounded-2xl text-center" },
+            e("div", { className: "text-xs font-bold opacity-80" }, "נכון"),
+            e("div", { className: "text-2xl font-black" }, score)
+          ),
+          e("h1", { className: "text-2xl font-black text-indigo-700 text-center drop-shadow" }, "✖️ לוח הכפל"),
+          e("div", { className: "bg-white/70 text-indigo-500 px-5 py-2 rounded-2xl text-center shadow" },
+            e("div", { className: "text-xs font-bold opacity-70" }, "סה\"כ"),
+            e("div", { className: "text-2xl font-black" }, totalRounds)
+          )
+        ),
 
-          {/* Header */}
-          <div className="w-full max-w-md mb-6 flex items-center justify-between">
-            <div className="score-badge text-white px-5 py-2 rounded-2xl text-center">
-              <div className="text-xs font-bold opacity-80">נכון</div>
-              <div className="text-2xl font-black">{score}</div>
-            </div>
+        e("div", { className: `number-card rounded-3xl w-64 h-40 flex items-center justify-center mb-8 ${numAnim}` },
+          e("span", { className: "text-6xl font-black text-indigo-700 select-none tracking-wide" }, `${a} × ${b}`)
+        ),
 
-            <h1 className="text-2xl font-black text-indigo-700 text-center drop-shadow">
-              ✖️ לוח הכפל
-            </h1>
+        phase === 'question' && e("div", { className: "flex flex-col items-center gap-5 w-full max-w-sm" },
+          e("p", { className: "text-xl font-bold text-indigo-800 text-center" },
+            "כמה זה ", e("span", { className: "text-3xl font-black" }, `${a} כפול ${b}`), "?"
+          ),
+          e("input", {
+            ref: inputRef,
+            type: "number",
+            min: "0",
+            max: "100",
+            value: input,
+            onChange: e => setInput(e.target.value),
+            onKeyDown={handleKeyDown},
+            placeholder: "?",
+            className: "answer-input w-40 h-24 text-6xl font-black text-indigo-700 rounded-3xl bg-white"
+          }),
+          e("button", {
+            onClick: handleSubmit,
+            disabled: input.trim() === '',
+            className: "btn-submit text-white text-2xl font-black py-4 px-12 rounded-3xl disabled:opacity-40 disabled:cursor-not-allowed"
+          }, "תשובה ✓")
+        ),
 
-            <div className="bg-white/70 text-indigo-500 px-5 py-2 rounded-2xl text-center shadow">
-              <div className="text-xs font-bold opacity-70">סה"כ</div>
-              <div className="text-2xl font-black">{totalRounds}</div>
-            </div>
-          </div>
+        phase === 'correct' && e("div", { className: "flex flex-col items-center gap-4 anim-bounce w-full max-w-sm" },
+          e(StarBurst),
+          e("img", {
+            src: "./Happy.png",
+            alt: "Happy",
+            className: "w-44 h-44 object-contain anim-float drop-shadow-lg"
+          }),
+          e("p", { className: "text-3xl font-black text-green-700 text-center drop-shadow" }, "כל הכבוד! צדקת! 🎉"),
+          e("p", { className: "text-lg font-bold text-green-600 text-center" },
+            `${a} × ${b} = `, e("span", { className: "text-2xl font-black" }, correct)
+          ),
+          e("button", {
+            onClick: nextQuestion,
+            className: "btn-next text-white text-2xl font-black py-4 px-10 rounded-3xl mt-2"
+          }, "תרגיל הבא ←")
+        ),
 
-          {/* Problem Card */}
-          <div className={`number-card rounded-3xl w-64 h-40 flex items-center justify-center mb-8 ${numAnim}`}>
-            <span className="text-6xl font-black text-indigo-700 select-none tracking-wide">
-              {a} × {b}
-            </span>
-          </div>
+        phase === 'wrong' && e("div", { className: "flex flex-col items-center gap-4 anim-shake w-full max-w-sm" },
+          e("img", {
+            src: "./Sad.png",
+            alt: "Sad",
+            className: "w-44 h-44 object-contain drop-shadow-lg"
+          }),
+          e("p", { className: "text-3xl font-black text-orange-700 text-center" }, "אופס, לא נורא! 💪"),
+          e("p", { className: "text-lg font-bold text-orange-600 text-center" },
+            "התשובה הנכונה היא ", e("span", { className: "text-2xl font-black" }, `${a} × ${b} = ${correct}`)
+          ),
+          e("button", {
+            onClick: nextQuestion,
+            className: "btn-next text-white text-2xl font-black py-4 px-10 rounded-3xl mt-2"
+          }, "תרגיל הבא ←")
+        ),
 
-          {/* Phases */}
-          {phase === 'question' && (
-            <div className="flex flex-col items-center gap-5 w-full max-w-sm">
-              <p className="text-xl font-bold text-indigo-800 text-center">
-                כמה זה <span className="text-3xl font-black">{a} כפול {b}</span>?
-              </p>
-              <input
-                ref={inputRef}
-                type="number"
-                min="0"
-                max="100"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="?"
-                className="answer-input w-40 h-24 text-6xl font-black text-indigo-700 rounded-3xl bg-white"
-              />
-              <button
-                onClick={handleSubmit}
-                disabled={input.trim() === ''}
-                className="btn-submit text-white text-2xl font-black py-4 px-12 rounded-3xl disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                תשובה ✓
-              </button>
-            </div>
-          )}
-
-          {phase === 'correct' && (
-            <div className="flex flex-col items-center gap-4 anim-bounce w-full max-w-sm">
-              <StarBurst />
-              <img
-                src="./Happy.png"
-                alt="Happy"
-                className="w-44 h-44 object-contain anim-float drop-shadow-lg"
-              />
-              <p className="text-3xl font-black text-green-700 text-center drop-shadow">
-                כל הכבוד! צדקת! 🎉
-              </p>
-              <p className="text-lg font-bold text-green-600 text-center">
-                {a} × {b} = <span className="text-2xl font-black">{correct}</span>
-              </p>
-              <button
-                onClick={nextQuestion}
-                className="btn-next text-white text-2xl font-black py-4 px-10 rounded-3xl mt-2"
-              >
-                תרגיל הבא ←
-              </button>
-            </div>
-          )}
-
-          {phase === 'wrong' && (
-            <div className="flex flex-col items-center gap-4 anim-shake w-full max-w-sm">
-              <img
-                src="./Sad.png"
-                alt="Sad"
-                className="w-44 h-44 object-contain drop-shadow-lg"
-              />
-              <p className="text-3xl font-black text-orange-700 text-center">
-                אופס, לא נורא! 💪
-              </p>
-              <p className="text-lg font-bold text-orange-600 text-center">
-                התשובה הנכונה היא <span className="text-2xl font-black">{a} × {b} = {correct}</span>
-              </p>
-              <button
-                onClick={nextQuestion}
-                className="btn-next text-white text-2xl font-black py-4 px-10 rounded-3xl mt-2"
-              >
-                תרגיל הבא ←
-              </button>
-            </div>
-          )}
-
-          {/* Hint strip */}
-          {phase === 'question' && (
-            <div className="mt-8 bg-white/60 backdrop-blur rounded-2xl px-6 py-3 text-center shadow">
-              <p className="text-sm font-bold text-indigo-500">
-                💡 <strong>טיפ:</strong> הקלד את התשובה ולחץ Enter או על כפתור "תשובה"
-              </p>
-            </div>
-          )}
-        </div>
+        phase === 'question' && e("div", { className: "mt-8 bg-white/60 backdrop-blur rounded-2xl px-6 py-3 text-center shadow" },
+          e("p", { className: "text-sm font-bold text-indigo-500" },
+            "💡 ", e("strong", null, "טיפ:"), " הקלד את התשובה ולחץ Enter או על כפתור \"תשובה\""
+          )
+        )
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<MultiplicationGame />);
+    ReactDOM.createRoot(document.getElementById('root')).render(e(MultiplicationGame));
   </script>
 </body>
 </html>
