@@ -176,7 +176,7 @@
             min: "0",
             max: "100",
             value: input,
-            onChange: e => setInput(e.target.value),
+            onChange: function(event) { setInput(event.target.value); },
             onKeyDown: handleKeyDown,
             placeholder: "?",
             className: "answer-input w-40 h-24 text-6xl font-black text-indigo-700 rounded-3xl bg-white"
