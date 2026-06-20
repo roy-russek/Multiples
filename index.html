@@ -102,7 +102,7 @@
 <body>
   <div id="root"></div>
 
-  <script type="text/babel">
+  <script type="text/babel" data-type="module">
     const { useState, useEffect, useCallback, useRef } = React;
 
     const CONFETTI_COLORS = ['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];
@@ -226,7 +226,6 @@
         >
           <Confetti active={phase === 'correct'} key={confettiKey} />
 
-          {/* Header */}
           <div className="w-full max-w-md mb-6 flex items-center justify-between">
             <div className="score-badge text-white px-5 py-2 rounded-2xl text-center">
               <div className="text-xs font-bold opacity-80">נכון</div>
@@ -243,14 +242,12 @@
             </div>
           </div>
 
-          {/* Problem Card */}
           <div className={`number-card rounded-3xl w-64 h-40 flex items-center justify-center mb-8 ${numAnim}`}>
             <span className="text-6xl font-black text-indigo-700 select-none tracking-wide">
               {a} × {b}
             </span>
           </div>
 
-          {/* Phases */}
           {phase === 'question' && (
             <div className="flex flex-col items-center gap-5 w-full max-w-sm">
               <p className="text-xl font-bold text-indigo-800 text-center">
@@ -281,7 +278,7 @@
             <div className="flex flex-col items-center gap-4 anim-bounce w-full max-w-sm">
               <StarBurst />
               <img
-                src="Happy.png"
+                src="./Happy.png"
                 alt="Happy"
                 className="w-44 h-44 object-contain anim-float drop-shadow-lg"
               />
@@ -303,38 +300,8 @@
           {phase === 'wrong' && (
             <div className="flex flex-col items-center gap-4 anim-shake w-full max-w-sm">
               <img
-                src="Sad.png"
+                src="./Sad.png"
                 alt="Sad"
                 className="w-44 h-44 object-contain drop-shadow-lg"
               />
-              <p className="text-3xl font-black text-orange-700 text-center">
-                אופס, לא נורא! 💪
-              </p>
-              <p className="text-lg font-bold text-orange-600 text-center">
-                התשובה הנכונה היא <span className="text-2xl font-black">{a} × {b} = {correct}</span>
-              </p>
-              <button
-                onClick={nextQuestion}
-                className="btn-next text-white text-2xl font-black py-4 px-10 rounded-3xl mt-2"
-              >
-                תרגיל הבא ←
-              </button>
-            </div>
-          )}
-
-          {/* Hint strip */}
-          {phase === 'question' && (
-            <div className="mt-8 bg-white/60 backdrop-blur rounded-2xl px-6 py-3 text-center shadow">
-              <p className="text-sm font-bold text-indigo-500">
-                💡 <strong>טיפ:</strong> הקלד את התשובה ולחץ Enter או על כפתור "תשובה"
-              </p>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<MultiplicationGame />);
-  </script>
-</body>
-</html>
+              <p className="text-3xl font-black text-orange-700 text
